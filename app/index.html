@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+:root {
+  --primary: #2196F3;
+  --secondary: #4CAF50;
+  --surface: #ffffff;
+  --background: #f5f5f5;
+  --on-primary: #ffffff;
+  --on-secondary: #ffffff;
+  --on-surface: #212121;
+}
+
+body {
+  background-color: var(--background);
+  margin: 0;
+  padding: 20px;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.elevation-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.elevation-2 {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+}
+
+.elevation-3 {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19);
+}
+
+.chapter-container {
+  margin: 16px 0;
+  background: var(--surface);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chapter-container:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.chapter-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 20px;
+  transition: background-color 0.3s;
+}
+
+.chapter-header:hover {
+  background-color: rgba(0,0,0,0.04);
+}
+
+.chapter-toggle-label {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  margin-right: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chapter-toggle-label::after {
+  content: "expand_more";
+  font-family: 'Material Icons';
+  font-size: 24px;
+  color: var(--primary);
+  transition: transform 0.3s;
+}
+
+.chapter-toggle:checked + .chapter-header .chapter-toggle-label::after {
+  content: "expand_less";
+}
+
+.chapter-content {
+  padding: 0 20px 20px 60px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chapter-toggle:checked ~ .chapter-content {
+  max-height: 1000px;
+}
+
+.row {
+  display: flex;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.column {
+  flex: 1;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 24px;
+  min-height: 400px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.button-container {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 32px 0;
+}
+
+button {
+  padding: 16px 32px;
+  border: none;
+  border-radius: 28px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+#copyButton {
+  background: var(--secondary);
+  color: var(--on-secondary);
+}
+
+#toggleButton {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+button:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.input-group {
+  margin: 20px 0;
+  position: relative;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--on-surface);
+  font-weight: 600;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  background: transparent;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+input[type="text"][readonly] {
+  border-bottom-style: dotted;
+  color: #666;
+}
+
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 24px 0;
+}
+
+.data-table th {
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 20px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.data-table td {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.value-large {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--on-surface);
+}
+
+.img-container {
+  margin: 24px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.img-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1, h2 {
+  color: var(--on-surface);
+  margin: 32px 0;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<h1>👩‍⚕️ Breast 🧮 Calculator 👨‍⚕️</h1>
+
+<div class="button-container">
+  <button id="copyButton" onclick="copyValues()">Copy Values</button>
+  <button id="toggleButton" onclick="toggleAllTables()">Predict</button>
+</div>
+
+<div class="row">
+  <div class="column">
+    <h2>Input Values</h2>
+
+
+
+
+
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter1">
+      <label class="chapter-header" for="input-chapter1">
+        <span class="chapter-toggle-label"></span>
+        Diagnóza
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature1">Diagnóza novotvaru detailní:</label>
+          <input type="text" id="feature1" name="feature1" value="C504" required>
+        </div>
+        <div class="input-group">
+          <label for="feature2">Lateralita novotvaru:</label>
+          <input type="text" id="feature2" name="feature2" value="2" required>
+        </div>
+        <div class="input-group">
+          <label for="feature3">Topografie novotvaru:</label>
+          <input type="text" id="feature3" name="feature3" value="C504" required>
+        </div>
+        <div class="input-group">
+          <label for="feature4">Morfologie novotvaru:</label>
+          <input type="text" id="feature4" name="feature4" value="85003" required>
+        </div>
+        <div class="input-group">
+          <label for="feature5">grading:</label>
+          <input type="text" id="feature5" name="feature5" value="3" required>
+        </div>
+        <div class="input-group">
+          <label for="feature6">TNM klasifikace novotvaru – T:</label>
+          <input type="text" id="feature6" name="feature6" value="1c" required>
+        </div>
+        <div class="input-group">
+          <label for="feature7">TNM klasifikace novotvaru – N:</label>
+          <input type="text" id="feature7" name="feature7" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature8">TNM klasifikace novotvaru – M:</label>
+          <input type="text" id="feature8" name="feature8" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature9">Metastázy vzdálených orgánů – jiný orgán:</label>
+          <input type="text" id="feature9" name="feature9" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature10">Metastázy vzdálených orgánů – kůže:</label>
+          <input type="text" id="feature10" name="feature10" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature11">Metastázy vzdálených orgánů – uzliny:</label>
+          <input type="text" id="feature11" name="feature11" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature12">Metastázy vzdálených orgánů – nadledviny:</label>
+          <input type="text" id="feature12" name="feature12" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature13">Metastázy vzdálených orgánů – mozek:</label>
+          <input type="text" id="feature13" name="feature13" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature14">Metastázy vzdálených orgánů – peritoneum:</label>
+          <input type="text" id="feature14" name="feature14" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature15">Metastázy vzdálených orgánů – játra:</label>
+          <input type="text" id="feature15" name="feature15" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature16">Metastázy vzdálených orgánů – pleura:</label>
+          <input type="text" id="feature16" name="feature16" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature17">Metastázy vzdálených orgánů – kosti:</label>
+          <input type="text" id="feature17" name="feature17" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature18">Metastázy vzdálených orgánů – kostní dřeň:</label>
+          <input type="text" id="feature18" name="feature18" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature19">Metastázy vzdálených orgánů – plíce:</label>
+          <input type="text" id="feature19" name="feature19" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature20">Metastázy vzdálených orgánů – neznámo:</label>
+          <input type="text" id="feature20" name="feature20" value="9" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter2">
+      <label class="chapter-header" for="input-chapter2">
+        <span class="chapter-toggle-label"></span>
+        Pacient
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature21">Desetiletá věková kategorie při diagnóze:</label>
+          <input type="text" id="feature21" name="feature21" value="106" required>
+        </div>
+        <div class="input-group">
+          <label for="feature22">Pořadí novotvaru u osoby:</label>
+          <input type="text" id="feature22" name="feature22" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature23">Pořadí novotvaru v rámci diagnózy:</label>
+          <input type="text" id="feature23" name="feature23" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature24">Pořadí novotvaru v rámci diagnostické skupiny:</label>
+          <input type="text" id="feature24" name="feature24" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature25">novotvar_poradi_dg_maligni:</label>
+          <input type="text" id="feature25" name="feature25" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature26">novotvar_poradi_dg_maligni_bez_c44:</label>
+          <input type="text" id="feature26" name="feature26" value="1" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter3">
+      <label class="chapter-header" for="input-chapter3">
+        <span class="chapter-toggle-label"></span>
+        Přidružené diagnózy
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature27">Index závažnosti dalších přidružených diagnóz pacienta (DCCI):</label>
+          <input type="text" id="feature27" name="feature27" value="" required>
+        </div>
+        <div class="input-group">
+          <label for="feature28">Infarkt myokardu:</label>
+          <input type="text" id="feature28" name="feature28" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature29">Srdeční selhání:</label>
+          <input type="text" id="feature29" name="feature29" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature30">Onemocnění periferních cév:</label>
+          <input type="text" id="feature30" name="feature30" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature31">Cévní nemoci mozku:</label>
+          <input type="text" id="feature31" name="feature31" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature32">Demence:</label>
+          <input type="text" id="feature32" name="feature32" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature33">Chronické plicní onemocnění:</label>
+          <input type="text" id="feature33" name="feature33" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature34">Onemocnění pojivových tkání:</label>
+          <input type="text" id="feature34" name="feature34" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature35">Vředová onemocnění:</label>
+          <input type="text" id="feature35" name="feature35" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature36">Mírná onemocnění jater:</label>
+          <input type="text" id="feature36" name="feature36" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature37">Diabetes mellitus bez chronických komplikací:</label>
+          <input type="text" id="feature37" name="feature37" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature38">Diabetes mellitus s chronickými komplikacemi:</label>
+          <input type="text" id="feature38" name="feature38" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature39">Hemiplegie nebo paraplegie:</label>
+          <input type="text" id="feature39" name="feature39" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature40">Onemocnění ledvin:</label>
+          <input type="text" id="feature40" name="feature40" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature41">Nádorová onemocnění (bez metastází):</label>
+          <input type="text" id="feature41" name="feature41" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature42">Středně závažné nebo vážné onemocnění jater:</label>
+          <input type="text" id="feature42" name="feature42" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature43">Nádorová onemocnění s metastázemi:</label>
+          <input type="text" id="feature43" name="feature43" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature44">Počet dnů od „index data“ do data diagnózy:</label>
+          <input type="text" id="feature44" name="feature44" value="22" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter4">
+      <label class="chapter-header" for="input-chapter4">
+        <span class="chapter-toggle-label"></span>
+        Vyšetření při primární diagnóze
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature45">Provedení CT vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature45" name="feature45" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature46">Provedení PET/CT vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature46" name="feature46" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature47">Provedení MR vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature47" name="feature47" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature48">Provedení scintigrafického vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature48" name="feature48" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature49">Provedení SPECT vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature49" name="feature49" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature50">Provedení rentgenového vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature50" name="feature50" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature51">Provedení sonografického vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature51" name="feature51" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature52">Provedení mamografického vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature52" name="feature52" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature53">Provedení screeningového vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature53" name="feature53" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature54">Provedení jiného vyšetření při primární diagnostice:</label>
+          <input type="text" id="feature54" name="feature54" value="0" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter5">
+      <label class="chapter-header" for="input-chapter5">
+        <span class="chapter-toggle-label"></span>
+        Provedení konsilia
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature55">Provedení konzilia multidisciplinárního týmu před/při primární léčbě novotvaru:</label>
+          <input type="text" id="feature55" name="feature55" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature56">Počet dnů od „index data“ do provedení konzilia multidisciplinárního týmu před/při primární léčbě novotvaru:</label>
+          <input type="text" id="feature56" name="feature56" value="" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter6">
+      <label class="chapter-header" for="input-chapter6">
+        <span class="chapter-toggle-label"></span>
+        Kde je pacient léčen
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature57">Provedení primární protinádorové léčby novotvaru v Komplexním onkologickém centru:</label>
+          <input type="text" id="feature57" name="feature57" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature58">Provedení primární protinádorové léčby novotvaru v Regionálním onkologickém centru:</label>
+          <input type="text" id="feature58" name="feature58" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature59">Provedení primární protinádorové léčby novotvaru u jiného poskytovatele:</label>
+          <input type="text" id="feature59" name="feature59" value="0" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter7">
+      <label class="chapter-header" for="input-chapter7">
+        <span class="chapter-toggle-label"></span>
+        Délka a zpoždění zahájení primární léčby
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature60">Počet dnů od data diagnózy do data zahájení primární léčby novotvaru:</label>
+          <input type="text" id="feature60" name="feature60" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature61">Délka primární léčby novotvaru:</label>
+          <input type="text" id="feature61" name="feature61" value="1350" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter8">
+      <label class="chapter-header" for="input-chapter8">
+        <span class="chapter-toggle-label"></span>
+        Užité modality léčby
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature62">Provedení operačního zákroku při primární léčbě novotvaru:</label>
+          <input type="text" id="feature62" name="feature62" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature63">Provedení radioterapeutického výkonu při primární léčbě novotvaru:</label>
+          <input type="text" id="feature63" name="feature63" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature64">Použití centrové protinádorové léčby při primární léčbě novotvaru:</label>
+          <input type="text" id="feature64" name="feature64" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature65">Použití chemoterapie při primární léčbě novotvaru:</label>
+          <input type="text" id="feature65" name="feature65" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature66">Použití hormonoterapie při primární léčbě novotvaru:</label>
+          <input type="text" id="feature66" name="feature66" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature67">Použití imunoterapie při primární léčbě novotvaru:</label>
+          <input type="text" id="feature67" name="feature67" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature68">Počet provedených léčebných modalit při primární léčbě novotvaru:</label>
+          <input type="text" id="feature68" name="feature68" value="6" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter9">
+      <label class="chapter-header" for="input-chapter9">
+        <span class="chapter-toggle-label"></span>
+        Hospitalizace
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature69">Počet hospitalizačních případů při primární léčbě novotvaru:</label>
+          <input type="text" id="feature69" name="feature69" value="3" required>
+        </div>
+        <div class="input-group">
+          <label for="feature70">Délka hospitalizačních případů při primární léčbě novotvaru:</label>
+          <input type="text" id="feature70" name="feature70" value="30" required>
+        </div>
+        <div class="input-group">
+          <label for="feature71">Počet ošetřovacích dnů, strávených na standardním lůžku u hospitalizačních případů při primární léčbě novotvaru:</label>
+          <input type="text" id="feature71" name="feature71" value="25" required>
+        </div>
+        <div class="input-group">
+          <label for="feature72">pl_hp_od_int:</label>
+          <input type="text" id="feature72" name="feature72" value="2" required>
+        </div>
+        <div class="input-group">
+          <label for="feature73">CZ-DRG skupina prvního hospitalizačního případu při primární léčbě novotvaru:</label>
+          <input type="text" id="feature73" name="feature73" value="09-I06-04" required>
+        </div>
+        <div class="input-group">
+          <label for="feature74">CZ-DRG skupina posledního hospitalizačního případu při primární léčbě novotvaru:</label>
+          <input type="text" id="feature74" name="feature74" value="08-I05-06" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="input-chapter10">
+      <label class="chapter-header" for="input-chapter10">
+        <span class="chapter-toggle-label"></span>
+        Vyšetření při/po konci primární léčby
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="feature75">Provedení CT vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="feature75" name="feature75" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature76">Provedení PET/CT vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="feature76" name="feature76" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature77">Provedení MR vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="feature77" name="feature77" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature78">Provedení scintigrafického vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="feature78" name="feature78" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature79">Provedení SPECT vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="feature79" name="feature79" value="0" required>
+        </div>
+        <div class="input-group">
+          <label for="feature80">Provedení rentgenového vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="feature80" name="feature80" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature81">Provedení sonografického vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="feature81" name="feature81" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature82">Provedení mamografického vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="feature82" name="feature82" value="1" required>
+        </div>
+        <div class="input-group">
+          <label for="feature83">Provedení jiného vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="feature83" name="feature83" value="0" required>
+        </div>
+      </div>
+    </div>
+
+ <!-- ####################################### -->
+
+
+
+    <div class="table-container" id="inputTableContainer"></div>
+  </div>
+
+  <div class="column">
+    <h2>Comparison Values</h2>
+    
+    
+    
+
+
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter1">
+      <label class="chapter-header" for="output-chapter1">
+        <span class="chapter-toggle-label"></span>
+        Diagnóza
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output1">Diagnóza novotvaru detailní:</label>
+          <input type="text" id="output1" name="output1" required>
+        </div>
+        <div class="input-group">
+          <label for="output2">Lateralita novotvaru:</label>
+          <input type="text" id="output2" name="output2" required>
+        </div>
+        <div class="input-group">
+          <label for="output3">Topografie novotvaru:</label>
+          <input type="text" id="output3" name="output3" required>
+        </div>
+        <div class="input-group">
+          <label for="output4">Morfologie novotvaru:</label>
+          <input type="text" id="output4" name="output4" required>
+        </div>
+        <div class="input-group">
+          <label for="output5">grading:</label>
+          <input type="text" id="output5" name="output5" required>
+        </div>
+        <div class="input-group">
+          <label for="output6">TNM klasifikace novotvaru – T:</label>
+          <input type="text" id="output6" name="output6" required>
+        </div>
+        <div class="input-group">
+          <label for="output7">TNM klasifikace novotvaru – N:</label>
+          <input type="text" id="output7" name="output7" required>
+        </div>
+        <div class="input-group">
+          <label for="output8">TNM klasifikace novotvaru – M:</label>
+          <input type="text" id="output8" name="output8" required>
+        </div>
+        <div class="input-group">
+          <label for="output9">Metastázy vzdálených orgánů – jiný orgán:</label>
+          <input type="text" id="output9" name="output9" required>
+        </div>
+        <div class="input-group">
+          <label for="output10">Metastázy vzdálených orgánů – kůže:</label>
+          <input type="text" id="output10" name="output10" required>
+        </div>
+        <div class="input-group">
+          <label for="output11">Metastázy vzdálených orgánů – uzliny:</label>
+          <input type="text" id="output11" name="output11" required>
+        </div>
+        <div class="input-group">
+          <label for="output12">Metastázy vzdálených orgánů – nadledviny:</label>
+          <input type="text" id="output12" name="output12" required>
+        </div>
+        <div class="input-group">
+          <label for="output13">Metastázy vzdálených orgánů – mozek:</label>
+          <input type="text" id="output13" name="output13" required>
+        </div>
+        <div class="input-group">
+          <label for="output14">Metastázy vzdálených orgánů – peritoneum:</label>
+          <input type="text" id="output14" name="output14" required>
+        </div>
+        <div class="input-group">
+          <label for="output15">Metastázy vzdálených orgánů – játra:</label>
+          <input type="text" id="output15" name="output15" required>
+        </div>
+        <div class="input-group">
+          <label for="output16">Metastázy vzdálených orgánů – pleura:</label>
+          <input type="text" id="output16" name="output16" required>
+        </div>
+        <div class="input-group">
+          <label for="output17">Metastázy vzdálených orgánů – kosti:</label>
+          <input type="text" id="output17" name="output17" required>
+        </div>
+        <div class="input-group">
+          <label for="output18">Metastázy vzdálených orgánů – kostní dřeň:</label>
+          <input type="text" id="output18" name="output18" required>
+        </div>
+        <div class="input-group">
+          <label for="output19">Metastázy vzdálených orgánů – plíce:</label>
+          <input type="text" id="output19" name="output19" required>
+        </div>
+        <div class="input-group">
+          <label for="output20">Metastázy vzdálených orgánů – neznámo:</label>
+          <input type="text" id="output20" name="output20" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter2">
+      <label class="chapter-header" for="output-chapter2">
+        <span class="chapter-toggle-label"></span>
+        Pacient
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output21">Desetiletá věková kategorie při diagnóze:</label>
+          <input type="text" id="output21" name="output21" required>
+        </div>
+        <div class="input-group">
+          <label for="output22">Pořadí novotvaru u osoby:</label>
+          <input type="text" id="output22" name="output22" required>
+        </div>
+        <div class="input-group">
+          <label for="output23">Pořadí novotvaru v rámci diagnózy:</label>
+          <input type="text" id="output23" name="output23" required>
+        </div>
+        <div class="input-group">
+          <label for="output24">Pořadí novotvaru v rámci diagnostické skupiny:</label>
+          <input type="text" id="output24" name="output24" required>
+        </div>
+        <div class="input-group">
+          <label for="output25">novotvar_poradi_dg_maligni:</label>
+          <input type="text" id="output25" name="output25" required>
+        </div>
+        <div class="input-group">
+          <label for="output26">novotvar_poradi_dg_maligni_bez_c44:</label>
+          <input type="text" id="output26" name="output26" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter3">
+      <label class="chapter-header" for="output-chapter3">
+        <span class="chapter-toggle-label"></span>
+        Přidružené diagnózy
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output27">Index závažnosti dalších přidružených diagnóz pacienta (DCCI):</label>
+          <input type="text" id="output27" name="output27" required>
+        </div>
+        <div class="input-group">
+          <label for="output28">Infarkt myokardu:</label>
+          <input type="text" id="output28" name="output28" required>
+        </div>
+        <div class="input-group">
+          <label for="output29">Srdeční selhání:</label>
+          <input type="text" id="output29" name="output29" required>
+        </div>
+        <div class="input-group">
+          <label for="output30">Onemocnění periferních cév:</label>
+          <input type="text" id="output30" name="output30" required>
+        </div>
+        <div class="input-group">
+          <label for="output31">Cévní nemoci mozku:</label>
+          <input type="text" id="output31" name="output31" required>
+        </div>
+        <div class="input-group">
+          <label for="output32">Demence:</label>
+          <input type="text" id="output32" name="output32" required>
+        </div>
+        <div class="input-group">
+          <label for="output33">Chronické plicní onemocnění:</label>
+          <input type="text" id="output33" name="output33" required>
+        </div>
+        <div class="input-group">
+          <label for="output34">Onemocnění pojivových tkání:</label>
+          <input type="text" id="output34" name="output34" required>
+        </div>
+        <div class="input-group">
+          <label for="output35">Vředová onemocnění:</label>
+          <input type="text" id="output35" name="output35" required>
+        </div>
+        <div class="input-group">
+          <label for="output36">Mírná onemocnění jater:</label>
+          <input type="text" id="output36" name="output36" required>
+        </div>
+        <div class="input-group">
+          <label for="output37">Diabetes mellitus bez chronických komplikací:</label>
+          <input type="text" id="output37" name="output37" required>
+        </div>
+        <div class="input-group">
+          <label for="output38">Diabetes mellitus s chronickými komplikacemi:</label>
+          <input type="text" id="output38" name="output38" required>
+        </div>
+        <div class="input-group">
+          <label for="output39">Hemiplegie nebo paraplegie:</label>
+          <input type="text" id="output39" name="output39" required>
+        </div>
+        <div class="input-group">
+          <label for="output40">Onemocnění ledvin:</label>
+          <input type="text" id="output40" name="output40" required>
+        </div>
+        <div class="input-group">
+          <label for="output41">Nádorová onemocnění (bez metastází):</label>
+          <input type="text" id="output41" name="output41" required>
+        </div>
+        <div class="input-group">
+          <label for="output42">Středně závažné nebo vážné onemocnění jater:</label>
+          <input type="text" id="output42" name="output42" required>
+        </div>
+        <div class="input-group">
+          <label for="output43">Nádorová onemocnění s metastázemi:</label>
+          <input type="text" id="output43" name="output43" required>
+        </div>
+        <div class="input-group">
+          <label for="output44">Počet dnů od „index data“ do data diagnózy:</label>
+          <input type="text" id="output44" name="output44" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter4">
+      <label class="chapter-header" for="output-chapter4">
+        <span class="chapter-toggle-label"></span>
+        Vyšetření při primární diagnóze
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output45">Provedení CT vyšetření při primární diagnostice:</label>
+          <input type="text" id="output45" name="output45" required>
+        </div>
+        <div class="input-group">
+          <label for="output46">Provedení PET/CT vyšetření při primární diagnostice:</label>
+          <input type="text" id="output46" name="output46" required>
+        </div>
+        <div class="input-group">
+          <label for="output47">Provedení MR vyšetření při primární diagnostice:</label>
+          <input type="text" id="output47" name="output47" required>
+        </div>
+        <div class="input-group">
+          <label for="output48">Provedení scintigrafického vyšetření při primární diagnostice:</label>
+          <input type="text" id="output48" name="output48" required>
+        </div>
+        <div class="input-group">
+          <label for="output49">Provedení SPECT vyšetření při primární diagnostice:</label>
+          <input type="text" id="output49" name="output49" required>
+        </div>
+        <div class="input-group">
+          <label for="output50">Provedení rentgenového vyšetření při primární diagnostice:</label>
+          <input type="text" id="output50" name="output50" required>
+        </div>
+        <div class="input-group">
+          <label for="output51">Provedení sonografického vyšetření při primární diagnostice:</label>
+          <input type="text" id="output51" name="output51" required>
+        </div>
+        <div class="input-group">
+          <label for="output52">Provedení mamografického vyšetření při primární diagnostice:</label>
+          <input type="text" id="output52" name="output52" required>
+        </div>
+        <div class="input-group">
+          <label for="output53">Provedení screeningového vyšetření při primární diagnostice:</label>
+          <input type="text" id="output53" name="output53" required>
+        </div>
+        <div class="input-group">
+          <label for="output54">Provedení jiného vyšetření při primární diagnostice:</label>
+          <input type="text" id="output54" name="output54" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter5">
+      <label class="chapter-header" for="output-chapter5">
+        <span class="chapter-toggle-label"></span>
+        Provedení konsilia
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output55">Provedení konzilia multidisciplinárního týmu před/při primární léčbě novotvaru:</label>
+          <input type="text" id="output55" name="output55" required>
+        </div>
+        <div class="input-group">
+          <label for="output56">Počet dnů od „index data“ do provedení konzilia multidisciplinárního týmu před/při primární léčbě novotvaru:</label>
+          <input type="text" id="output56" name="output56" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter6">
+      <label class="chapter-header" for="output-chapter6">
+        <span class="chapter-toggle-label"></span>
+        Kde je pacient léčen
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output57">Provedení primární protinádorové léčby novotvaru v Komplexním onkologickém centru:</label>
+          <input type="text" id="output57" name="output57" required>
+        </div>
+        <div class="input-group">
+          <label for="output58">Provedení primární protinádorové léčby novotvaru v Regionálním onkologickém centru:</label>
+          <input type="text" id="output58" name="output58" required>
+        </div>
+        <div class="input-group">
+          <label for="output59">Provedení primární protinádorové léčby novotvaru u jiného poskytovatele:</label>
+          <input type="text" id="output59" name="output59" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter7">
+      <label class="chapter-header" for="output-chapter7">
+        <span class="chapter-toggle-label"></span>
+        Délka a zpoždění zahájení primární léčby
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output60">Počet dnů od data diagnózy do data zahájení primární léčby novotvaru:</label>
+          <input type="text" id="output60" name="output60" required>
+        </div>
+        <div class="input-group">
+          <label for="output61">Délka primární léčby novotvaru:</label>
+          <input type="text" id="output61" name="output61" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter8">
+      <label class="chapter-header" for="output-chapter8">
+        <span class="chapter-toggle-label"></span>
+        Užité modality léčby
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output62">Provedení operačního zákroku při primární léčbě novotvaru:</label>
+          <input type="text" id="output62" name="output62" required>
+        </div>
+        <div class="input-group">
+          <label for="output63">Provedení radioterapeutického výkonu při primární léčbě novotvaru:</label>
+          <input type="text" id="output63" name="output63" required>
+        </div>
+        <div class="input-group">
+          <label for="output64">Použití centrové protinádorové léčby při primární léčbě novotvaru:</label>
+          <input type="text" id="output64" name="output64" required>
+        </div>
+        <div class="input-group">
+          <label for="output65">Použití chemoterapie při primární léčbě novotvaru:</label>
+          <input type="text" id="output65" name="output65" required>
+        </div>
+        <div class="input-group">
+          <label for="output66">Použití hormonoterapie při primární léčbě novotvaru:</label>
+          <input type="text" id="output66" name="output66" required>
+        </div>
+        <div class="input-group">
+          <label for="output67">Použití imunoterapie při primární léčbě novotvaru:</label>
+          <input type="text" id="output67" name="output67" required>
+        </div>
+        <div class="input-group">
+          <label for="output68">Počet provedených léčebných modalit při primární léčbě novotvaru:</label>
+          <input type="text" id="output68" name="output68" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter9">
+      <label class="chapter-header" for="output-chapter9">
+        <span class="chapter-toggle-label"></span>
+        Hospitalizace
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output69">Počet hospitalizačních případů při primární léčbě novotvaru:</label>
+          <input type="text" id="output69" name="output69" required>
+        </div>
+        <div class="input-group">
+          <label for="output70">Délka hospitalizačních případů při primární léčbě novotvaru:</label>
+          <input type="text" id="output70" name="output70" required>
+        </div>
+        <div class="input-group">
+          <label for="output71">Počet ošetřovacích dnů, strávených na standardním lůžku u hospitalizačních případů při primární léčbě novotvaru:</label>
+          <input type="text" id="output71" name="output71" required>
+        </div>
+        <div class="input-group">
+          <label for="output72">pl_hp_od_int:</label>
+          <input type="text" id="output72" name="output72" required>
+        </div>
+        <div class="input-group">
+          <label for="output73">CZ-DRG skupina prvního hospitalizačního případu při primární léčbě novotvaru:</label>
+          <input type="text" id="output73" name="output73" required>
+        </div>
+        <div class="input-group">
+          <label for="output74">CZ-DRG skupina posledního hospitalizačního případu při primární léčbě novotvaru:</label>
+          <input type="text" id="output74" name="output74" required>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-container">
+      <input type="checkbox" class="chapter-toggle" id="output-chapter10">
+      <label class="chapter-header" for="output-chapter10">
+        <span class="chapter-toggle-label"></span>
+        Vyšetření při/po konci primární léčby
+      </label>
+      <div class="chapter-content">
+        <div class="input-group">
+          <label for="output75">Provedení CT vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="output75" name="output75" required>
+        </div>
+        <div class="input-group">
+          <label for="output76">Provedení PET/CT vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="output76" name="output76" required>
+        </div>
+        <div class="input-group">
+          <label for="output77">Provedení MR vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="output77" name="output77" required>
+        </div>
+        <div class="input-group">
+          <label for="output78">Provedení scintigrafického vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="output78" name="output78" required>
+        </div>
+        <div class="input-group">
+          <label for="output79">Provedení SPECT vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="output79" name="output79" required>
+        </div>
+        <div class="input-group">
+          <label for="output80">Provedení rentgenového vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="output80" name="output80" required>
+        </div>
+        <div class="input-group">
+          <label for="output81">Provedení sonografického vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="output81" name="output81" required>
+        </div>
+        <div class="input-group">
+          <label for="output82">Provedení mamografického vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="output82" name="output82" required>
+        </div>
+        <div class="input-group">
+          <label for="output83">Provedení jiného vyšetření při/po konci primární léčby:</label>
+          <input type="text" id="output83" name="output83" required>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div class="table-container" id="outputTableContainer"></div>
+  </div>
+</div>
+
+<script>
+// function copyValues() {
+//   const copyButton = document.getElementById('copyButton');
+//   copyButton.disabled = true;
+//   copyButton.textContent = 'Copying...';
+  
+//   setTimeout(() => {
+//     document.getElementById('output1').value = document.getElementById('feature1').value;
+//     document.getElementById('output2').value = document.getElementById('feature2').value;
+//     document.getElementById('output3').value = document.getElementById('feature3').value;
+    
+//     copyButton.disabled = false;
+//     copyButton.textContent = 'Copy Values';
+//   }, 1000);
+// }
+
+function copyValues() {
+  const copyButton = document.getElementById('copyButton');
+  copyButton.disabled = true;
+  copyButton.textContent = 'Copying...';
+
+  setTimeout(() => {
+    // Loop through all feature IDs and copy their values to corresponding output fields
+    for (let i = 1; i <= 83; i++) { // Assuming there are 83 features based on the provided HTML structure
+      const featureId = `feature${i}`;
+      const outputId = `output${i}`;
+      const featureElement = document.getElementById(featureId);
+      const outputElement = document.getElementById(outputId);
+
+      if (featureElement && outputElement) {
+        outputElement.value = featureElement.value;
+      }
+    }
+
+    // Re-enable the button and reset its text after copying is complete
+    copyButton.disabled = false;
+    copyButton.textContent = 'Copy Values';
+  }, 1000); // Simulate a delay for the copying process
+}
+
+function toggleAllTables() {
+  const toggleButton = document.getElementById('toggleButton');
+  const inputContainer = document.getElementById('inputTableContainer');
+  const outputContainer = document.getElementById('outputTableContainer');
+  
+  const inputContent = inputContainer.innerHTML;
+  const outputContent = outputContainer.innerHTML;
+
+  if (inputContent || outputContent) {
+    inputContainer.innerHTML = '';
+    outputContainer.innerHTML = '';
+    toggleButton.textContent = 'Show Sample Data';
+  } else {
+    toggleButton.textContent = 'Loading...';
+    toggleButton.disabled = true;
+    
+    setTimeout(() => {
+      const inputTable = createTable('input');
+      const outputTable = createTable('output');
+      
+      const inputImages = document.createElement('div');
+      inputImages.className = 'img-container';
+      inputImages.innerHTML = `
+        <img src="./image_left_top.png" alt="Medical Scan">
+        <img src="./image_left_bottom.png" alt="Tissue Analysis">
+      `;
+      
+      const outputImages = document.createElement('div');
+      outputImages.className = 'img-container';
+      outputImages.innerHTML = `
+        <img src="./image_left_top.png" alt="Result Graph">
+        <img src="./image_left_bottom.png" alt="Risk Chart">
+      `;
+
+      inputContainer.appendChild(inputTable);
+      inputContainer.appendChild(inputImages);
+      outputContainer.appendChild(outputTable);
+      outputContainer.appendChild(outputImages);
+
+      toggleButton.textContent = 'Hide Sample Data';
+      toggleButton.disabled = false;
+    }, 2000);
+  }
+}
+
+function createTable(type) {
+  const samples = {
+    input: [
+      [56.78, 90.12]
+    ],
+    output: [
+      ['Benign', 0.23]
+    ]
+  };
+
+  const headers = {
+    input: ['Feature 1', 'Feature 2'],
+    output: ['Diagnosis', 'Probability']
+  };
+
+  const table = document.createElement('table');
+  table.className = `data-table ${type}-table`;
+  
+  const header = table.createTHead();
+  const headerRow = header.insertRow();
+  headers[type].forEach(text => {
+    const th = document.createElement('th');
+    th.textContent = text;
+    headerRow.appendChild(th);
+  });
+
+  const body = table.createTBody();
+  samples[type].forEach((sample) => {
+    const row = body.insertRow();
+    sample.forEach(value => {
+      const cell = row.insertCell();
+      cell.textContent = value;
+      cell.classList.add('value-large');
+    });
+  });
+
+  return table;
+}
+</script>
+
+</body>
+</html>

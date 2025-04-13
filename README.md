@@ -43,7 +43,7 @@ After applying hormonotherapy as part of primary treatments, the model predicts 
 </p>
 
 
-## Example usage:
+#### Example usage of the death-relaps model:
 `import os
 import requests
 import numpy as np
