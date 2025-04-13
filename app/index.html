@@ -1196,14 +1196,12 @@ function toggleAllTables() {
       inputImages.className = 'img-container';
       inputImages.innerHTML = `
         <img src="./image_left_top.png" alt="Medical Scan">
-        <img src="./image_left_bottom.png" alt="Tissue Analysis">
       `;
       
       const outputImages = document.createElement('div');
       outputImages.className = 'img-container';
       outputImages.innerHTML = `
-        <img src="./image_left_top.png" alt="Result Graph">
-        <img src="./image_left_bottom.png" alt="Risk Chart">
+        <img src="./image_right_top.png" alt="Result Graph">
       `;
 
       inputContainer.appendChild(inputTable);
@@ -1211,7 +1209,7 @@ function toggleAllTables() {
       outputContainer.appendChild(outputTable);
       outputContainer.appendChild(outputImages);
 
-      toggleButton.textContent = 'Hide Sample Data';
+      toggleButton.textContent = 'Hide prediction';
       toggleButton.disabled = false;
     }, 2000);
   }
@@ -1220,16 +1218,16 @@ function toggleAllTables() {
 function createTable(type) {
   const samples = {
     input: [
-      [56.78, 90.12]
+      [0.3658, 0.1391]
     ],
     output: [
-      ['Benign', 0.23]
+      [0.2537 ,0.0382]
     ]
   };
 
   const headers = {
-    input: ['Feature 1', 'Feature 2'],
-    output: ['Diagnosis', 'Probability']
+    input: ['Pravděpodobnost relapsu nebo úmrtí', 'Pravděpodobnost úmrtí'],
+    output: ['Pravděpodobnost relapsu nebo úmrtí', 'Pravděpodobnost úmrtí']
   };
 
   const table = document.createElement('table');
